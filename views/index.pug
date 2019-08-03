@@ -1,0 +1,336 @@
+html
+  head
+    title Gurul
+    link(rel='stylesheet', href='/stylesheets/contact.css')
+    link(rel='stylesheet', href='/toastr/build/toastr.css')
+    //link(rel="stylesheet", href='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css')
+    //script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+    //script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js')
+  body
+    center.bisey
+      .background
+          .container(style='margin-bottom: 0px')
+              .screen
+                  .main-app-title
+                      span GURUL
+      .background
+          .container
+              .screen
+                  .screen-header
+                      .screen-header-left
+                          //.screen-header-button.close
+                      .screen-header-right
+                  #tableRandom
+                      input.random-app-form-control#txtRandomUp(type='text', style='text-transform:uppercase', readonly=true)
+                      br
+                      button.buttonRandom#btnRandomUp SHOW Random
+                      button.buttonRandomBottom#btnRandomGo Go
+      .background
+        .container
+          .screen
+            .screen-header
+              .screen-header-left
+                //.screen-header-button.close#btnRed(class='btn btn-' + btnType + ' btn-' + btnSize)
+              .screen-header-right
+            .screen-body
+              .screen-body-item.left
+                .app-form#page
+                  .app-form-group
+                    .app-form-control Minimum Cost:
+                    select.app-form-control#chooseMinAmount
+                      option.app-form-control-option(value='') All
+                      option.app-form-control-option(value='30') 30 TL
+                      option.app-form-control-option(value='20') 20 TL
+                      option.app-form-control-option(value='10') 10 TL
+                  .app-form-group
+                    .app-form-control Point:
+                    select.app-form-control#choosePoint
+                      option.app-form-control-option(value='') All
+                      option.app-form-control-option(value='7') +7
+                      option.app-form-control-option(value='8') +8
+                      option.app-form-control-option(value='9') +9
+                  .app-form-group
+                    input.app-form-control#txtsearchFood.form-control(type='text', placeholder='Enter Food To Search' name='foodname', style='text-transform:uppercase')
+                    button.button#btnSearch(class="buttonRandom") Search
+                    button.button#btnRandom(class="buttonRandom") Show Random
+                    button.button.hideForMobile#btnList(class="buttonRandom") Food List
+                    button.button.hideForMobile#btnNext(class="buttonRandom") Add / Delete
+              .screen-body-item.right.hideForMobile
+                .app-form
+                     table#tableTitle
+                     table#tableBody
+        table#addTable
+
+      .background.hideForWeb
+        .container
+          .screen
+            .screen-header
+            .screen-body
+                .screen-body-item.left
+                    .app-form
+                        .app-form-group
+                            center
+                            table#tableMobilList
+
+      //.background.hideForWeb
+          .container
+              .screen
+                  .screen-header
+                  .screen-body
+                      .screen-body-item.left
+                          .app-form
+                              .app-form-group
+                                  input.app-form-control#txtAddFoodMobile.form-control(type='text', placeholder='Enter Food To Add' name='foodname', style='text-transform:uppercase')
+                                  button.button#btnAddMobile(class="buttonRandom") Add
+                                  button.button#btnDeleteMobile(class="buttonRandom") Delete
+                      .screen-body-item.right
+                          .app-form
+                              .app-form-group
+
+
+    script(src='https://code.jquery.com/jquery-3.3.1.min.js')
+    script(src='toastr/toastr.js')
+    script.
+      $("#tableBody").empty()
+      var justBeforeFood = null
+      $("#txtsearchFood").keydown(function (event) {
+        if (event.keyCode === 13) {
+          //alert("alert");
+          $("#btnSearch").click();
+        }
+      });
+      $(function () {
+        $('#btnSearch').click(function (e) {
+          e.preventDefault();
+            var lower = $('#txtsearchFood').val()
+            lower = lower.replace("İ", "i");
+            lower = lower.replace("I", "ı");
+            var upper = lower.charAt(0) + lower.substr(1);
+            var link = "https://www.yemeksepeti.com/istanbul/arama#ors:true|aid:02fecf06-19f4-4c20-a9e3-3358901eb3b7|st:" + upper.toLowerCase();
+            if ($('#chooseMinAmount').val() !== "" && $('#chooseMinAmount').val() !== null) {
+                link += "|mbt:" + $('#chooseMinAmount').val();
+            }
+            if ($('#choosePoint').val() !== "" && $('#choosePoint').val() !== null) {
+                link += "|tp:" + $('#choosePoint').val();
+            }
+            window.open(link, '_blank');
+            //document.getElementById('txtsearchFood').value = ''
+        })
+        $('#btnRandom').click(function (e) {
+          e.preventDefault();
+          $.post('/list')
+                  .done(function (returnValue) {
+                    //console.log(returnValue);
+                    var foodArray = [];
+                    for (var i = 0 ; i < returnValue.accounts.length; i++)
+                    {
+                      foodArray.push(returnValue.accounts[i].foodname);
+                    }
+                    choosenFood = foodArray[Math.floor(Math.random()*foodArray.length)];
+                    if (justBeforeFood == choosenFood){
+                      choosenFood = foodArray[Math.floor(Math.random() * foodArray.length)];
+                      $("#btnRandom").click();
+                    } else if (justBeforeFood != choosenFood) {
+                      document.getElementById("txtsearchFood").value = choosenFood;
+                      justBeforeFood = choosenFood
+                    }
+                  })
+        })
+        $('#btnList').click(function (e) {
+          e.preventDefault();
+            $.get('/list')
+                .done(function (returnValue) {
+                    var foodArray = [];
+                    for (var i = 0; i < returnValue.accounts.length; i++) {
+                        foodArray.push(returnValue.accounts[i].foodname);
+                    }
+                    foodArray.sort()
+                    $("#tableTitle").empty()
+                    $("#tableBody").empty()
+                    $("#tableTitle").append('<center><div class="app-title"><span>FOOD LIST</span></div></center>')
+                    $("#tableTitle").append('<div class="scrollbar" id="style-1" style="height: 300px; overflow-x: hidden; overflow-y: scroll;"></div>')
+                    $("#tableMobilList").empty()
+                    $("#tableMobilList").append('<center><div class="app-title"><span>FOOD LIST</span></div></center>')
+                    $("#tableMobilList").append('<center><div class="scrollbar" id="style-1" style="height: 300px; width: 700px; overflow-x: hidden; overflow-y: scroll;"></div></center>')
+                    var link = "https://www.yemeksepeti.com/istanbul/arama#ors:true|aid:02fecf06-19f4-4c20-a9e3-3358901eb3b7|st:";
+                    for (var i = 0; i < returnValue.accounts.length; i++) {
+                        $("#style-1").append('<center><a class="app-form-control-option" href=" ' + link + foodArray[i] + '" target="_blank"><div class="app-form-control2">' + foodArray[i] + '</div></a></center>')
+                    }
+                })
+        })
+      })
+      $('#btnRed').click(function (e) {
+          e.preventDefault();
+          location.reload();
+      })
+      $('#btnNext').click(function (e) {
+          e.preventDefault();
+          $("#page").empty()
+          $("#page").append('<div class="app-form-group">\n' +
+              '  <input class="app-form-control form-control" id="txtAddFood" type="text" placeholder="Enter Food To Add" name="foodname" style="text-transform:uppercase"/>\n' +
+              '  <button class="button" id="btnAdd">Add</button>\n' +
+              '  <button class="button hideForMobile" id="btnList">Food List</button>\n' +
+              '  <button class="button" id="btnRemove">Remove</button>\n' +
+              '  <button class="button" id="btnBack">Back</button>\n' +
+              '</div>')
+          $('#btnBack').click(function (e) {
+              e.preventDefault();
+              location.reload();
+              //toastr.info("HERE");
+          })
+          $('#btnAdd').click(function (e) {
+              e.preventDefault();
+              var i = 1;
+              if (document.getElementById('txtAddFood').value == '') {
+                  toastr.warning("Empty input");
+              } else if (document.getElementById('txtAddFood').value != '') {
+                  var lower = $('#txtAddFood').val()
+                  lower = lower.replace("İ", "i");
+                  lower = lower.replace("I", "ı");
+                  var upper = lower.charAt(0).toLowerCase() + lower.substr(1).toLowerCase();
+                  var data = {
+                      'foodname': upper,
+                      'checkMe': i
+                  }
+                  console.log(data)
+                  $.post("/element/get", data)
+                      .done(function (returnValue) {
+                          if (returnValue.success) {
+                              console.log(returnValue)
+                              location.reload();
+                          } else {
+                              toastr.info("We have this item already");
+                          }
+                      })
+              }
+          })
+          $('#btnList').click(function (e) {
+              e.preventDefault();
+              $.get('/list')
+                  .done(function (returnValue) {
+                      var foodArray = [];
+                      for (var i = 0; i < returnValue.accounts.length; i++) {
+                          foodArray.push(returnValue.accounts[i].foodname);
+                      }
+                      foodArray.sort()
+                      $("#tableTitle").empty()
+                      $("#tableBody").empty()
+                      $("#tableTitle").append('<center><div class="app-title"><span>FOOD LIST</span></div></center>')
+                      $("#tableTitle").append('<div class="scrollbar" id="style-1" style="height: 300px; overflow-x: hidden; overflow-y: scroll;"></div>')
+                      $("#tableMobilList").empty()
+                      $("#tableMobilList").append('<center><div class="app-title"><span>FOOD LIST</span></div></center>')
+                      $("#tableMobilList").append('<div class="scrollbar" id="style-1" style="height: 300px; overflow-x: hidden; overflow-y: scroll;"></div>')
+                      var link = "https://www.yemeksepeti.com/istanbul/arama#ors:true|aid:02fecf06-19f4-4c20-a9e3-3358901eb3b7|st:";
+                      for (var i = 0; i < returnValue.accounts.length; i++) {
+                          $("#style-1").append('<center><a class="app-form-control-option" href=" ' + link + foodArray[i] + '" target="_blank"><div class="app-form-control2">' + foodArray[i] + '</div></a></center>')
+                      }
+                  })
+          })
+          $('#btnRemove').click(function (e) {
+              e.preventDefault();
+              $("#tableTitle").empty()
+              $("#tableBody").empty()
+              $("#tableTitle").append('<div class="app-title"><span>DELETE FOOD</span></div>')
+              $("#tableBody").append('<center><select name="combo" class="app-form-control" id="combo"></select><button class="button btn btn-undefined btn-undefined" id="btnDelete">Delete</button></center>')
+              $.post('/list')
+                  .done(function (returnValue) {
+                      var foodArray = [];
+                      for (var i = 0; i < returnValue.accounts.length; i++) {
+                          foodArray.push(returnValue.accounts[i].foodname);
+                      }
+                      foodArray.sort()
+                      for (var i = 0; i < returnValue.accounts.length; i++) {
+                          $("#combo").append('<option class="app-form-control-option" value="' + foodArray[i] + '">' + foodArray[i] + '</option>')
+                      }
+                  })
+              $("#tableBody").on("click", "button", function () {
+                  var e = document.getElementById("combo").value;
+                  var i = 0;
+                  var data = {
+                      'foodname': e,
+                      'checkMe': i
+                  }
+                  console.log(data)
+                  $.post("/element/get", data)
+                      .done(function (returnValue) {
+                          console.log(returnValue)
+                      })
+                  location.reload();
+              });
+
+          })
+          $("#txtAddFood").keydown(function (event) {
+              if (event.keyCode === 13) {
+                  event.preventDefault();
+                  $("#btnAdd").click();
+              }
+          });
+      })
+      $.post('/list')
+          .done(function (returnValue) {
+              //console.log(returnValue);
+              var foodArray = [];
+              for (var i = 0; i < returnValue.accounts.length; i++) {
+                  foodArray.push(returnValue.accounts[i].foodname);
+              }
+              choosenFood = foodArray[Math.floor(Math.random() * foodArray.length)];
+              if (justBeforeFood == choosenFood) {
+                  choosenFood = foodArray[Math.floor(Math.random() * foodArray.length)];
+                  $("#btnRandomUp").click();
+              } else if (justBeforeFood != choosenFood) {
+                  document.getElementById("txtRandomUp").value = choosenFood;
+                  justBeforeFood = choosenFood
+              }
+          })
+      $('#btnRandomUp').click(function (e) {
+          e.preventDefault();
+          $.post('/list')
+              .done(function (returnValue) {
+                  //console.log(returnValue);
+                  var foodArray = [];
+                  for (var i = 0; i < returnValue.accounts.length; i++) {
+                      foodArray.push(returnValue.accounts[i].foodname);
+                  }
+                  choosenFood = foodArray[Math.floor(Math.random() * foodArray.length)];
+                  if (justBeforeFood == choosenFood) {
+                      choosenFood = foodArray[Math.floor(Math.random() * foodArray.length)];
+                      $("#btnRandomUp").click();
+                  } else if (justBeforeFood != choosenFood) {
+                      document.getElementById("txtRandomUp").value = choosenFood;
+                      justBeforeFood = choosenFood
+                  }
+              })
+      })
+      $('#btnRandomGo').click(function (e) {
+          e.preventDefault();
+          var link = "https://www.yemeksepeti.com/istanbul/arama#ors:true|aid:02fecf06-19f4-4c20-a9e3-3358901eb3b7|st:"
+          if ($('#chooseMinAmount').val() !== "" && $('#chooseMinAmount').val() !== null) {
+              link += "|mbt:" + $('#chooseMinAmount').val();
+          }
+          if ($('#choosePoint').val() !== "" && $('#choosePoint').val() !== null) {
+              link += "|tp:" + $('#choosePoint').val();
+          }
+
+          var lower = document.getElementById("txtRandomUp").value
+          lower = lower.replace("İ", "i");
+          lower = lower.replace("I", "ı");
+          var upper = lower.charAt(0) + lower.substr(1);
+
+          link += "|st:" + upper
+          window.open(link, '_blank');
+      })
+      $.get('/list')
+          .done(function (returnValue) {
+              var foodArray = [];
+              for (var i = 0; i < returnValue.accounts.length; i++) {
+                  foodArray.push(returnValue.accounts[i].foodname);
+              }
+              foodArray.sort()
+              $("#tableMobilList").empty()
+              $("#tableMobilList").append('<center><div class="app-title"><span>FOOD LIST</span></div></center>')
+              $("#tableMobilList").append('<div class="scrollbar" id="style-1" style="height: 300px; overflow-x: hidden; overflow-y: scroll;"></div>')
+              var link = "https://www.yemeksepeti.com/istanbul/arama#ors:true|aid:02fecf06-19f4-4c20-a9e3-3358901eb3b7|st:";
+              for (var i = 0; i < returnValue.accounts.length; i++) {
+                  $("#style-1").append('<center><a class="app-form-control-option" href=" ' + link + foodArray[i] + '" target="_blank"><div class="app-form-control2">' + foodArray[i] + '</div></a></center>')
+              }
+          })

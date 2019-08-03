@@ -1,0 +1,591 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    /*background: linear-gradient(to right, #ea005c 0%, #eb1d36 100%);*/
+
+    background-image: url('../img/background.jpg');
+    background-size: cover;
+    font-size: 12px;
+}
+
+body, button, input {
+    font-family: 'Montserrat', sans-serif;
+    /* font-weight: 700; */
+    letter-spacing: 1.4px;
+}
+
+.background {
+    display: flex;
+    min-height: 10vh;
+}
+
+.container {
+    flex: 0 1 700px;
+    margin: auto;
+    padding: 10px;
+    padding-left: 0!important;
+    padding-right: 0!important;
+}
+
+.screen {
+    position: relative;
+    background: #3e3e3e;
+    border-radius: 15px;
+}
+
+.screen:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 20px;
+    right: 20px;
+    bottom: 0;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, .4);
+    z-index: -1;
+}
+
+.screen-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background: #4d4d4f;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.screen-header-left {
+    margin-right: auto;
+}
+
+.screen-header-button {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 3px;
+    border-radius: 8px;
+    background: white;
+}
+
+.screen-header-button.close {
+    background: #eb1d36;
+}
+
+.screen-header-button.maximize {
+    background: #e8e925;
+}
+
+.screen-header-button.minimize {
+    background: #74c54f;
+}
+
+.screen-header-right {
+    display: flex;
+}
+
+.screen-header-ellipsis {
+    width: 3px;
+    height: 3px;
+    margin-left: 2px;
+    border-radius: 8px;
+    background: #999;
+}
+
+.screen-body {
+    display: flex;
+}
+
+.screen-body-item {
+    flex: 1;
+    padding: 50px;
+}
+
+.screen-body-item.left {
+    display: flex;
+    flex-direction: column;
+}
+
+.screen-body-item.right {
+    display: flex;
+    flex-direction: column;
+}
+
+.main-app-title {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    color: #eb8800;
+    padding: 10px;
+    font-size: 30px;
+}
+
+.app-title {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    color: #eb8800;
+    font-size: 26px;
+}
+
+.app-contact {
+    margin-top: auto;
+    font-size: 8px;
+    color: #888;
+}
+
+.app-form-group {
+    /*margin-bottom: 15px;*/
+}
+
+.app-form-group.message {
+    margin-top: 40px;
+}
+
+.app-form-group.buttons {
+    margin-bottom: 0;
+    text-align: right;
+}
+
+.app-form-control {
+    width: 100%!important;
+    padding: 10px 0!important;
+    background: none!important;
+    border: none!important;
+    border-bottom: 1px solid #666!important;
+    color: #ddd!important;
+    font-size: 14px!important;
+    text-transform: uppercase!important;
+    outline: none!important;
+    transition: border-color .2s!important;
+}
+
+.random-app-form-control {
+    width: 500px!important;
+    background: none!important;
+    text-align: center!important;
+    border: none!important;
+    border-bottom: 1px solid #666!important;
+    color: #eb8800!important;
+    font-size: 50px!important;
+    text-transform: uppercase!important;
+    outline: none!important;
+    transition: border-color .2s!important;
+}
+
+.button {
+    width: 149px!important;
+    margin-right: 0!important;
+}
+
+.buttonRandom {
+    outline: 0!important;
+    border: 0!important;
+    background: none!important;
+    border: 1px solid #d9d9d9!important;
+    padding: 8px 0px!important;
+    /*margin-bottom: 10px!important;*/
+    /*margin-left: 10px!important;*/
+    color: #ddd!important;
+    text-transform: uppercase!important;
+    width: 149px!important;
+    font-family: inherit!important;
+    margin-right: 8px!important;
+    margin-top: 8px!important;
+    transition: all 0.3s ease!important;
+    font-weight: 500!important;
+    border-radius: 5px!important;
+}
+
+.buttonRandom:hover {
+
+// background: darken(white, 2%)!important;
+    border: 1px solid #ba6900!important;
+    color: #ba6900!important;
+    cursor: pointer!important;
+
+}
+
+.buttonRandomBottom {
+    outline: 0!important;
+    border: 0!important;
+    background: none!important;
+    border: 1px solid #d9d9d9!important;
+    padding: 8px 0px!important;
+    /*margin-bottom: 10px!important;*/
+    /*margin-left: 10px!important;*/
+    color: #ddd!important;
+    text-transform: uppercase!important;
+    width: 149px!important;
+    font-family: inherit!important;
+    margin-right: 8px!important;
+    margin-top: 8px!important;
+    transition: all 0.3s ease!important;
+    font-weight: 500!important;
+    border-radius: 5px!important;
+    margin-bottom: 10px!important;
+}
+
+.buttonRandomBottom:hover {
+
+// background: darken(white, 2%)!important;
+    border: 1px solid #ba6900!important;
+    color: #ba6900!important;
+    cursor: pointer!important;
+
+}
+
+.app-form-control2 {
+
+    padding: 10px 0!important;
+    background: none!important;
+    border: none!important;
+    padding-right: 30px!important;
+    color: #ddd!important;
+    font-size: 14px!important;
+    text-transform: uppercase!important;
+    outline: none!important;
+    transition: border-color .2s!important;
+}
+
+.app-form-control-button {
+    padding-top: 5px;
+    width: 100%;
+    padding: 10px 0;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #666;
+    color: #eb8800;
+    font-size: 14px;
+    text-transform: uppercase;
+    outline: none;
+    transition: border-color .2s;
+}
+
+.app-form-control-option {
+    width: 100%;
+    padding: 10px 0;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #666;
+    color: #4d4d4f;
+    font-size: 14px;
+    text-transform: uppercase;
+    outline: none;
+    transition: border-color .2s;
+}
+
+.app-form-control::-webkit-input-placeholder {
+    color: #666;
+}
+
+.app-form-control:-ms-input-placeholder {
+    color: #666;
+}
+
+.app-form-control::-ms-input-placeholder {
+    color: #666;
+}
+
+.app-form-control::placeholder {
+    color: #666;
+}
+
+.app-form-control:focus {
+    border-bottom-color: #ddd;
+}
+
+.app-form-button {
+    background: none;
+    border: none;
+    color: #ddd;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+}
+
+.app-form-button:hover {
+    color: #ba6900;
+}
+
+.credits {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    color: #ffa4bd;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.credits-link {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.dribbble {
+    width: 20px;
+    height: 20px;
+    margin: 0 5px;
+}
+
+.hideForWeb {
+    display: none!important;
+}
+
+@media only screen and (orientation:landscape) and (min-width: 768px) and (max-width: 991px){
+    /*Phone-Landscape*/
+    .screen-body {
+        padding: 25px!important;
+    }
+
+    .screen-body-item {
+        padding: 5px!important;
+    }
+
+    .bisey {
+        margin-top: 0%!important;
+    }
+
+    .screen {
+        width: 800px!important;
+    }
+
+    .container {
+        width: 810px!important;
+        padding-left: 0;
+    }
+
+    .buttonRandom {
+        width: 350px!important;
+        height: 50px!important;
+        font-size: 20px!important;
+    }
+
+    .buttonRandomBottom {
+        width: 350px!important;
+        height: 50px!important;
+        font-size: 20px!important;
+        margin-bottom: 20px!important;
+    }
+
+    .hideForMobile {
+        display: none!important;
+    }
+
+    .hideForWeb {
+        display: inline!important;
+    }
+
+    .scrollbar {
+        background-color: #0000;
+        float: left;
+        height: 300px!important;
+        margin-left: 22px;
+        width: 700px!important;
+        overflow-y: scroll;
+        font-size: 20px!important;
+    }
+
+    .app-form-control2 {
+        width: 700px!important;
+        height: 50px!important;
+        font-size: 20px!important;
+    }
+
+    .app-form-control {
+        width: 700px!important;
+        height: 50px!important;
+        font-size: 20px!important;
+        text-align: center!important;
+    }
+
+    .app-form-control-option {
+        width: 700px!important;
+        height: 50px!important;
+        font-size: 20px!important;
+    }
+}
+
+@media only screen and (orientation:portrait) and (min-width: 768px) and (max-width: 991px){
+    /*Phone-Portrait*/
+
+    .scrollbar {
+        background-color: #0000;
+        float: left;
+        height: 300px!important;
+        margin-left: 22px;
+        width: 700px!important;
+        overflow-y: scroll;
+        font-size: 45px!important;
+    }
+
+    .app-form-control2 {
+        width: 700px!important;
+        height: 70px!important;
+        font-size: 40px!important;
+    }
+
+    .hideForMobile {
+        display: none!important;
+    }
+
+    .hideForWeb {
+        display: inline!important;
+    }
+
+    .app-title {
+        width: 700px!important;
+        height: 70px!important;
+        font-size: 40px!important;
+    }
+
+    .centerla {
+        text-align: center!important;
+    }
+
+    .screen-body {
+        padding: 25px!important;
+    }
+
+    .screen-body-item {
+        padding: 5px!important;
+    }
+    .bisey {
+        margin-top: 0!important;
+    }
+
+    .screen {
+        width: 800px!important;
+    }
+
+    .container {
+        width: 810px!important;
+        padding-left: 0;
+    }
+
+    .buttonRandom {
+        width: 700px!important;
+        height: 70px!important;
+        font-size: 45px!important;
+    }
+
+    .buttonRandomBottom {
+        width: 700px!important;
+        height: 70px!important;
+        font-size: 45px!important;
+        margin-bottom: 40px!important;
+    }
+
+    .button {
+        width: 700px!important;
+        height: 70px!important;
+        font-size: 45px!important;
+    }
+
+    .app-form-control {
+        width: 700px!important;
+        height: 70px!important;
+        font-size: 40px!important;
+        text-align: center!important;
+    }
+
+    .app-form-control-option {
+        width: 700px!important;
+        height: 70px!important;
+        font-size: 40px!important;
+    }
+
+    .main-app-title {
+        font-size: 75px!important;
+    }
+
+    .random-app-form-control {
+        font-size: 70px!important;
+        width: 700px!important;
+    }
+
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1999px){
+    /*Laptop*/
+
+    .screen-body {
+        padding: 25px!important;
+    }
+
+    .screen-body-item {
+        padding: 5px!important;
+    }
+    .bisey {
+        padding-top: 0;
+    }
+
+    .button {
+        width: 149px!important;
+        padding-right: 0!important;
+    }
+}
+
+button {
+
+    outline: 0!important;
+    border: 0!important;
+    background: none!important;
+    border: 1px solid #d9d9d9!important;
+    padding: 8px 0px!important;
+    margin-bottom: 2px!important;
+    color: #ddd!important;
+    text-transform: uppercase!important;
+    width: 130px!important;
+    font-family: inherit!important;
+    margin-right: 8px!important;
+    margin-top: 8px!important;
+    transition: all 0.3s ease!important;
+    font-weight: 500!important;
+    border-radius: 5px!important;
+}
+
+button:hover {
+
+ // background: darken(white, 2%)!important;
+     border: 1px solid #ba6900!important;
+     color: #ba6900!important;
+     cursor: pointer!important;
+
+ }
+
+.scrollbar {
+    background-color: #0000;
+    float: left;
+    height: 300px;
+    margin-left: 22px;
+    width: 170px;
+    overflow-y: scroll;
+}
+
+.force-overflow {
+    min-height: 450px;
+}
+
+#style-1::-webkit-scrollbar {
+    width: 6px;
+    background-color: #0000;
+}
+
+#style-1::-webkit-scrollbar-thumb {
+    background-color: #ba6900;
+}
+
+#style-1::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #0000;
+}
