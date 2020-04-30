@@ -22,7 +22,7 @@
     "gulp": "^4.0.0",
     "http-errors": "~1.6.2",
     "jade": "^1.11.0",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "mongodb": "^3.1.13",
     "mongoose": "latest",
     "mongoose-cache": "latest",
